@@ -167,3 +167,6 @@ bin/
 include/
 venv/
 pyvenv.cfg
+
+# local
+test.txt
