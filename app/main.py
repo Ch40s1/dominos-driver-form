@@ -1,103 +1,65 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import Canvas, ttk, messagebox
 
 
 # Define main function to initialize and run the application
 def main():
-    test_data = ""
-    # Initialize driver with test data
-    driver = Driver(test_data)
-    # Save initial data to JSON file
-    driver.save_to_json()
+    try:
+        # creates main application window
+        root = tk.Tk()
+        # sets the title of the main window
+        root.title("Driver Car Inspection")
+        # sets siz 800px by 500px with a screen displacement of 400 x
+        # and 200 y from the top left 0,0
+        root.geometry("800x500+400-200")
 
-    # Create and run the main window
-    app = Application(driver)
-    app.run()
+        # Create the main content frame widget
+        # within the main window(root) with a 5 px border and a ridge relief(3d appearance)
+        content = tk.Frame(root, borderwidth=5, relief="ridge")
+        # content frame uses grid and places it in column 0, row 0
+        # exapnds in all directions (north, south, east, west)
+        content.grid(column=0, row=0, sticky="nsew")
 
+        # Configure the grid layout
+        # ensures that the content frame and its child widgets can expand to fill the available space
+        #################################
+        # Allows the single cell in the root window (column 0, row 0) to expand when the window is resized
+        root.columnconfigure(0, weight=1)
+        root.rowconfigure(0, weight=1)
+        ################################
+        # configures the columns and rows in the content frame to expand proportionally.
+        # each column gains a weight of 1 meaning they will expand equally
+        content.columnconfigure(0, weight=1)
+        content.columnconfigure(1, weight=1)
+        content.columnconfigure(2, weight=1)
+        content.rowconfigure(1, weight=1)
 
-# define form class
-# class Form:
-    # init
-    # questions to get data from user
-    # this will be a map or dict
+        # Create buttons create, delete, search,
+        create_button = tk.Button(content, text="Create")
+        delete_button = tk.Button(content, text="Delete")
+        search_button = tk.Button(content, text="Search")
 
-# Define Driver class to handle data model
-class Driver:
-    def __init__(self, data):
-        self.data = data
-        # self.id = generate_unique_id()
+        # places button on top row
+        # sticky 'ew' makes the button expand horizontally
+        create_button.grid(column=0, row=0, sticky="ew")
+        delete_button.grid(column=1, row=0, sticky="ew")
+        search_button.grid(column=2, row=0, sticky="ew")
 
-    def save_to_json(self):
-        # Save driver data to JSON file
-        pass
+        # Create a main canvas within content frame, border 2px, background white, sunken relief(indented appearance)
+        # places the canvas in row 1 col 0, and expands all directions
+        canvas = tk.Canvas(content, borderwidth=2, relief="sunken", bg="white")
+        canvas.grid(column=0, row=1, columnspan=2, rowspan=2, sticky="nsew")
 
-    def load_from_json(self):
-        # Load driver data from JSON file
-        pass
+        # Create empty area (right side)
+        news_area = tk.Frame(content, borderwidth=2, relief="sunken")
+        news_area.grid(column=2, row=1, rowspan=2, sticky="nsew")
 
-    def create(self, new_data):
-        # Create new driver data
-        pass
-
-    def read(self):
-        # Read driver data
-        pass
-
-    def update(self, updated_data):
-        # Update driver data
-        pass
-
-    def delete(self):
-        # Delete driver data
-        pass
-
-# Define Application class to handle the view and controller
-class Application:
-    def __init__(self, driver):
-        self.driver = driver
-        self.root = tk.Tk()
-        self.root.title("Simple Window")
-        # make window 3x width and 2x length
-        self.root.geometry("300x200")
-        self.create_widgets()
-
-    def create_widgets(self):
-        # Create and place widgets (buttons, labels, etc.)
-        button = ttk.Button(self.root, text="Click Me", command=self.on_close)
-        # create form
-        button.pack(pady=20)
-
-    def on_close(self):
-        # Close the window
-        self.root.destroy()
-
-    def run(self):
-        # Run the main window loop
-        self.root.mainloop()
-
+        root.mainloop()
+    except Exception as err:
+        root = tk.Tk()
+        root.withdraw()  # Hide the main window
+        messagebox.showerror("Error", f"An error occurred: {err}")
+        root.destroy()
+#  Ensures that the main() function is called only when the script is run directly, not when it is imported as a module.
 if __name__ == "__main__":
     main()
-
-
-# myapp/
-# │
-# ├── models/
-# │   ├── __init__.py
-# │   ├── driver.py       # Contains the Driver class and data handling functions
-# │
-# ├── controllers/
-# │   ├── __init__.py
-# │   ├── driver_controller.py  # Contains CRUD operations and logic
-# │
-# ├── views/
-# │   ├── __init__.py
-# │   ├── main_view.py    # Contains the Application class and Tkinter view code
-# │
-# ├── data/
-# │   ├── driver_data.json # JSON file to store driver data
-# │
-# ├── main.py             # Entry point of the application
-# │
-# ├── utils/
-# │   ├── __init__.py
-# │   ├── helpers.py      # Contains helper functions like generate_unique_id
