@@ -57,12 +57,14 @@ class Application:
         self.driver = driver
         self.root = tk.Tk()
         self.root.title("Simple Window")
+        # make window 3x width and 2x length
         self.root.geometry("300x200")
         self.create_widgets()
 
     def create_widgets(self):
         # Create and place widgets (buttons, labels, etc.)
         button = ttk.Button(self.root, text="Click Me", command=self.on_close)
+        # create form
         button.pack(pady=20)
 
     def on_close(self):
